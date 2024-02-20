@@ -53,10 +53,11 @@ void show_results(player *players, int num_players){
         }
     }
 
-    printf("Game Results:\n");
+    printf("\nScoreboard:\n");
     for (int i = 0; i < num_players; i++) {
         printf("Rank %d: %s - Score: %d\n", i + 1, players[i].name, players[i].score);
     }
+    printf("\n");
 }
 
 bool is_game_over(void) {
@@ -111,34 +112,33 @@ int main(int argc, char *argv[])
         int selected_value;
         printf("Enter category and dollar amount: ");
         scanf("%s %d", selected_category, &selected_value);
-
-        if (already_answered(selected_category, selected_value)) {
-            printf("Question has already been answered!\n");
-            continue;
-        }
+	
 
         display_question(selected_category, selected_value);
 
         char answer[BUFFER_LEN];
-        printf("Enter your answer: ");
-        fgets(answer, BUFFER_LEN, stdin);
-        strtok(answer, "\n");  
-
-        if (valid_answer(selected_category, selected_value, answer)) {
-            printf("Correct!\n");
-            update_score(players, NUM_PLAYERS, selected_player, selected_value);
-        } else {
-            printf("Incorrect!\n");
+        
+        if (already_answered(selected_category, selected_value) == true)
+        	printf("This question been answered!\n");
+        else {
+        	printf("Enter your answer: ");
+		    scanf("%s", answer);
+		    strtok(answer, "\n");  
+        	if (valid_answer(selected_category, selected_value, answer)) {
+		        printf("Correct!\n");
+		        update_score(players, NUM_PLAYERS, selected_player, selected_value);
+        	} else {
+            	printf("Incorrect!\n");
+        	}
         }
-
-        already_answered(selected_category, selected_value);
-
+        
         if (is_game_over()) {
+        	printf("Congrats Player: %s Thanks for playing!", players[0].name);
+        	show_results(players, NUM_PLAYERS);
             break;
         }
-        // Display the final results and exit
+        show_results(players, NUM_PLAYERS);
     }
-    show_results(players, NUM_PLAYERS);
 
     return EXIT_SUCCESS;
 }

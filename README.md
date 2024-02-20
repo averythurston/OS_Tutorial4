@@ -1,2 +1,5 @@
-"# OS_Tutorial4" 
-Used Command Prompt line "gcc jeopardy.c questions.c players.c" to compile
+"# OS_Tutorial4"
+Note: Modified Makefile.
+Usage:
+1) make
+2) ./jeop

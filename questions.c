@@ -20,8 +20,8 @@ void initialize_game(void)
         for (int j = 0; j < NUM_VALUES; j++) {
             question q;
             sprintf(q.category, "Category %d", i + 1);
-            sprintf(q.question, "Question %d worth $%d", i + 1, (j + 1) * 100);
-            sprintf(q.answer, "Answer %d", i + 1);
+            sprintf(q.question, "Question %d worth $%d what is %d + %d ?\n", i + 1, (j + 1) * 100, i, j);
+            sprintf(q.answer, "%d" ,i + j);
             q.value = (j + 1) * 100;
             q.answered = false;
             questions[i][j] = q;
@@ -46,41 +46,31 @@ void display_categories(void)
 
 // Displays the question for the category and dollar value
 void display_question(char *category, int value)
-{
-    for (int i = 0; i < NUM_CATEGORIES; i++) {
-        for (int j = 0; j < NUM_VALUES; j++) {
-            if (strcmp(questions[i][j].category, category) == 0 && questions[i][j].value == value) {
-                printf("Question: %s\n", questions[i][j].question);
-                return;
-            }
-        }
-    }
+{	
+	value = value / 100 -1;
+	int cat = atoi(category) - 1;
+	printf("%s", questions[cat][value].question);
+    printf("Answer: %s\n", questions[cat][value].answer);
 }
 
 // Returns true if the answer is correct for the question for that category and dollar value
 bool valid_answer(char *category, int value, char *answer)
 {
-    // Look into string comparison functions
-    for (int i = 0; i < NUM_CATEGORIES; i++) {
-        for (int j = 0; j < NUM_VALUES; j++) {
-            if (strcmp(questions[i][j].category, category) == 0 && questions[i][j].value == value) {
-                return strcmp(questions[i][j].answer, answer) == 0;
-            }
-        }
-    }
-    return false;
+	value = value / 100 -1;
+	int cat = atoi(category) - 1;
+	if (strcmp(questions[cat][value].answer, answer) == 0) {
+		questions[cat][value].answered = true;
+		return true;
+	} else {
+		return false;
+	}
 }
+
 
 // Returns true if the question has already been answered
 bool already_answered(char *category, int value)
-{
-    // lookup the question and see if it's already been marked as answered
-    for (int i = 0; i < NUM_CATEGORIES; i++) {
-        for (int j = 0; j < NUM_VALUES; j++) {
-            if (strcmp(questions[i][j].category, category) == 0 && questions[i][j].value == value) {
-                return questions[i][j].answered;
-            }
-        }
-    }
-    return false;
+{	
+	value = value / 100 -1;
+	int cat = atoi(category) - 1;
+    return questions[cat][value].answered;
 }
