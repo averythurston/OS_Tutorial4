@@ -50,7 +50,6 @@ void display_question(char *category, int value)
 	value = value / 100 -1;
 	int cat = atoi(category) - 1;
 	printf("%s", questions[cat][value].question);
-    printf("Answer: %s\n", questions[cat][value].answer);
 }
 
 // Returns true if the answer is correct for the question for that category and dollar value
